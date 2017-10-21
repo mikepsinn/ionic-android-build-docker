@@ -15,6 +15,7 @@ RUN dnf install -y \
         java-1.8.0-openjdk-headless \
         make \
         ruby \
+        ruby-dev \
         rubygems \
         tar \
         which \
