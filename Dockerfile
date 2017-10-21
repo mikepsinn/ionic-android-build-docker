@@ -3,6 +3,7 @@ MAINTAINER Wei Kin Huang
 
 # install dependencies
 RUN dnf install -y \
+        imagemagick \
         curl \
         expect \
         findutils \
@@ -54,8 +55,8 @@ RUN curl -sSL http://dl.google.com/android/android-sdk_r${ANDROID_SDK_VERSION}-l
 # RUN android-sdk-install tools
 
 # android sdk components
-ENV ANDROID_CORE_LEVEL      23
-ENV ANDROID_BUILD_TOOLS     23.0.3
+ENV ANDROID_CORE_LEVEL      26
+ENV ANDROID_BUILD_TOOLS     26.0.0
 ENV ANDROID_API_LEVELS      android-${ANDROID_CORE_LEVEL}
 ENV ANDROID_GOOGLE_APIS     addon-google_apis-google-${ANDROID_CORE_LEVEL}
 # http://paulemtz.blogspot.com/2013/05/android-testing-in-headless-emulator.html
@@ -87,15 +88,15 @@ ENV SUPPLY_VERSION          0.6.2
 RUN gem install --no-ri --no-rdoc supply -v ${SUPPLY_VERSION}
 
 # install node
-ENV NODE_VERSION            5.10.1
+ENV NODE_VERSION            6.11.1
 RUN curl -sSLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
     && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
     && rm "node-v$NODE_VERSION-linux-x64.tar.gz"
 
 # install ionic dependencies
 ENV BOWER_VERSION           1.7.9
-ENV CORDOVA_VERSION         6.1.1
-ENV IONIC_VERSION           1.7.14
+ENV CORDOVA_VERSION         6.5.0
+ENV IONIC_VERSION           2.2.3
 ENV GULP_VERSION            1.2.1
 # install global node modules and clear cache
 RUN mkdir -p \
@@ -119,10 +120,8 @@ RUN cd /tmp \
     && mkdir -p \
         /tmp/.npm \
         /tmp/.npm-tmp \
-    && echo n | ionic start test-app tabs \
-    && cd test-app \
-    && ionic platform add android \
-    && ionic build android \
+    && gulp buildAllChromeExtensions \
+    && gulp buildAllAndroidAppsWithCleaning \
     && rm -rf \
         /root/.android/debug.keystore \
         /root/.config \
