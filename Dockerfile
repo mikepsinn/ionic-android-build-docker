@@ -3,7 +3,7 @@ MAINTAINER Wei Kin Huang
 
 # install dependencies
 RUN dnf install -y \
-        imagemagick \
+        ImageMagick \
         curl \
         expect \
         findutils \
