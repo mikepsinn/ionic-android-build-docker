@@ -16,6 +16,7 @@ RUN dnf install -y \
         make \
         ruby \
         ruby-devel \
+        redhat-rpm-config \
         rubygems \
         tar \
         which \
